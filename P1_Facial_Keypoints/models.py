@@ -7,6 +7,7 @@ import torch.nn.functional as F
 import torch.nn.init as I
 
 
+
 class Net(nn.Module):
 
     def __init__(self):
@@ -29,19 +30,19 @@ class Net(nn.Module):
         # input image size is 96 * 96 pixels
         
         # first convolutional layer
-        self.conv1 = nn.Conv2d(1,32,5) # (32,92,92) output tensor # (W-F)/S + 1 = (96-5)/1 + 1 = 92
+        self.conv1 = nn.Conv2d(1,32,5) # (32,220,220) output tensor # (W-F)/S + 1 = (224-5)/1 + 1 = 220
         self.bn1 = nn.BatchNorm2d(32)
         
         # Pooling Lyaer
-        self.pool = nn.MaxPool2d(2,2) # (32,46,46) output tensor
+        self.pool = nn.MaxPool2d(2,2) # pool1 (32,110,110) output tensor # pool2 (32,53,53) output tensor
         
         # second convolutional layer
-        self.conv2 = nn.Conv2d(32,64,5) # (64,44,44) output tensor # (W-F)/S + 1 = (46-5)/1 + 1 = 42
+        self.conv2 = nn.Conv2d(32,64,5) # (64,106,106) output tensor # (W-F)/S + 1 = (110-5)/1 + 1 = 106
         self.bn2 = nn.BatchNorm2d(64)
 
         
         # Fully connected layer
-        self.fc1 = nn.Linear(64*21*21, 1000) 
+        self.fc1 = nn.Linear(64*53*53, 1000) 
         self.drop1 = nn.Dropout(p=0.4)
         
         #FC layer 2 with 1000 input and 500 output
@@ -49,9 +50,13 @@ class Net(nn.Module):
         self.drop2 = nn.Dropout(p=0.4)
 
         # final FC layer
-        self.fc3 = nn.Linear(500, 136)        
-  
-
+        self.fc3 = nn.Linear(500, 136)  
+        
+        #initialize layers
+        I.xavier_uniform_(self.fc1.weight.data)
+        I.xavier_uniform_(self.fc2.weight.data)
+        I.xavier_uniform_(self.fc3.weight.data)
+    
     def forward(self, x):
         ## TODO: Define the feedforward behavior of this model
         ## x is the input image and, as an example, here you may choose to include a pool/conv step:
@@ -72,7 +77,6 @@ class Net(nn.Module):
         
         # a modified x, having gone through all the layers of your model, should be returned
         return x
-    
 ## TODO: define the convolutional neural network architecture
 
 
@@ -88,9 +92,10 @@ class NaimishNet(nn.Module):
         
         # As an example, you've been given a convolutional layer, which you may (but don't have to) change:
         # 1 input image channel (grayscale), 32 output channels/feature maps, 5x5 square convolution kernel
+        
         self.conv1 = nn.Conv2d(1, 32, 4)
         self.bn1 = nn.BatchNorm2d(32)
-#         self.c1_drop = nn.Dropout(0.1)
+        self.c1_drop = nn.Dropout(0.1)
         
         # Adding a maxpooling layer with stride 2
         self.pool = nn.MaxPool2d(2, 2)
@@ -98,17 +103,17 @@ class NaimishNet(nn.Module):
         # Adding second conv layer with 5x5 filter
         self.conv2 = nn.Conv2d(32, 64, 3)
         self.bn2 = nn.BatchNorm2d(64)
-#         self.c2_drop = nn.Dropout(0.2)
+        self.c2_drop = nn.Dropout(0.2)
         
         # conv3 with output 128 and 5x5 filter
         self.conv3 = nn.Conv2d(64, 128, 2)
         self.bn3 = nn.BatchNorm2d(128)
-#         self.c3_drop = nn.Dropout(0.3)
+        self.c3_drop = nn.Dropout(0.3)
         
         #conv4 with output 256 and 5x5 filter
         self.conv4 = nn.Conv2d(128, 256, 1)
         self.bn4 = nn.BatchNorm2d(256)
-#         self.c4_drop = nn.Dropout(0.4)
+        self.c4_drop = nn.Dropout(0.4)
         
         # conv5 with output 256 and 5 x5 filter
         #self.conv5 = nn.Conv2d(256, 256, 5)
@@ -118,12 +123,12 @@ class NaimishNet(nn.Module):
         
         # add dropout with 0.4 P
         self.fc1_drop = nn.Dropout(0.5)
-#         self.fc1_bn = nn.BatchNorm1d(1000)
+        self.fc1_bn = nn.BatchNorm1d(1000)
         
         # add fc layer 2 with input 1024 and output 512
         self.fc_2 = nn.Linear(1000, 1000)
         self.fc2_drop = nn.Dropout(0.6)
-#         self.fc1_bn = nn.BatchNorm1d(1000)
+        self.fc2_bn = nn.BatchNorm1d(1000)
         
         
         # add last layer
@@ -131,6 +136,11 @@ class NaimishNet(nn.Module):
         
         ## Note that among the layers to add, consider including:
         # maxpooling layers, multiple conv layers, fully-connected layers, and other layers (such as dropout or batch normalization) to avoid overfitting
+        
+        #initialize weights
+        I.xavier_uniform_(self.fc_1.weight.data)
+        I.xavier_uniform_(self.fc_2.weight.data)
+        I.xavier_uniform_(self.fc_final.weight.data)
        
         
     def forward(self, x):
@@ -138,17 +148,17 @@ class NaimishNet(nn.Module):
         ## x is the input image and, as an example, here you may choose to include a pool/conv step:
         ## x = self.pool(F.relu(self.conv1(x)))
         
-        x = self.pool(F.relu(self.bn1(self.conv1(x))))
-        x = self.pool(F.relu(self.bn2(self.conv2(x))))
-        x = self.pool(F.relu(self.bn3(self.conv3(x))))
-        x = self.pool(F.relu(self.bn4(self.conv4(x))))
+        x = self.c1_drop(self.pool(F.elu(self.bn1(self.conv1(x)))))
+        x = self.c2_drop(self.pool(F.elu(self.bn2(self.conv2(x)))))
+        x = self.c3_drop(self.pool(F.elu(self.bn3(self.conv3(x)))))
+        x = self.c4_drop(self.pool(F.elu(self.bn4(self.conv4(x)))))
         
         # reshape the data for the linear layers
         x = x.view(x.size(0), -1)
         
         # now the last FC layers 
-        x = self.fc1_drop(F.relu(self.fc_1(x)))
-        x = self.fc2_drop(F.relu(self.fc_2(x)))
+        x = self.fc1_drop(F.elu(self.fc1_bn(self.fc_1(x))))
+        x = self.fc2_drop(F.elu(self.fc2_bn(self.fc_2(x))))
         
         x = self.fc_final(x)
         
