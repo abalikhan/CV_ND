@@ -50,6 +50,7 @@ cd P3_Implement_SLAM
 ```
 pip install -r requirements.txt
 ```
-
+### Results
+Results are given in notebook 3
 
 LICENSE: This project is licensed under the terms of the MIT license.
