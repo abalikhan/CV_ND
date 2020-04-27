@@ -2,11 +2,11 @@
 
 ![header](images/readme.png)
 
-# Automatic Image Captioning
+# Image Captioning Project
 
-## Project Objective
+## Objective
 
-In this project, I'll create a neural network architecture consisting of both CNNs and LSTMs to automatically generate captions from images.
+In this project I utilize both CNNS and RNNS (LSTMs) for automatic image captioning.
 
 
 ## Getting the Files
@@ -27,13 +27,12 @@ The core architecture used to achieve this task follows an encoder-decoder archi
 
 ![encoder-decoder-architecture](images/encoder-decoder.png)
 
-You can use my pre-trained model for your own experimentation. To use it, [download](https://www.dropbox.com/sh/z95hjvylmqqzqr0/AABRRLCVHzRSnUico5xV_-Y0a?raw=1). After downloading, unzip the file and place the contained pickle models under the subdirectory `models`.
 
-Please feel free to experiment with alternative architectures, such as bidirectional LSTM with attention mechanisms.
+Feel free to experiment with different architectures inclduing pre-trained models like VGG16, GoogleNet and RNNs models like GRU, LSTMs with different layers. 
 
 ## Result
 
-Here are some visualizations of the facial recognition, keypoints detection, CNN feature maps, and interesting sunglasses layover applications:
+Here are some results of images with associated captions:
 
 ![Facial Keypoint Detection](images/result.png)
 
