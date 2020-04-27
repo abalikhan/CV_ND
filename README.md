@@ -4,4 +4,4 @@
 
 This respiratory contains projects I developed during my computer vision nano-degree program. 
 
-![My Computer Vision Nano Degree Certificate](certificate-1.jpg)
+![My Computer Vision Nano Degree Certificate](Certificate-1.jpg)
