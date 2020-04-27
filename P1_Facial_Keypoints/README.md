@@ -74,6 +74,8 @@ pip install -r requirements.txt
 
 All the data required for training and testing is given in Udacity original github respiratory (https://github.com/udacity/P1_Facial_Keypoints)
 
+### Models
+You are free to use my pre-trained models based on a simple CNN architecture and NaimishNet model given in saved_models folder.
 
 ### Results
 Visualization of some of the results including, face detection, facial keypoints detection, CNN layers feature maps and a sunglasses layout applicatoins are given here. 
