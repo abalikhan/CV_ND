@@ -34,7 +34,7 @@ Feel free to experiment with different architectures inclduing pre-trained model
 
 Here are some results of images with associated captions:
 
-![Facial Keypoint Detection](images/result.png)
+![Facial Keypoint Detection](images/results.png)
 
 
 ## Dependencies
