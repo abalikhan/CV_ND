@@ -76,5 +76,7 @@ All the data required for training and testing is given in Udacity original gith
 
 
 ### Results
-Some of the results 
+Visualization of some of the results including, face detection, facial keypoints detection, CNN layers feature maps and a sunglasses layout applicatoins are given here. 
+![Facial Keypoint Detection](images/result.png)
+
 LICENSE: This project is licensed under the terms of the MIT license.
