@@ -72,7 +72,7 @@ pip install -r requirements.txt
 
 ### Data
 
-All of the data you'll need to train a neural network is in the P1_Facial_Keypoints repo, in the subdirectory `data`. In this folder are training and tests set of image/keypoint data, and their respective csv files. This will be further explored in Notebook 1: Loading and Visualizing Data, and you're encouraged to look trough these folders on your own, too.
+All the data required for training and testing is given in Udacity original github respiratory (https://github.com/udacity/P1_Facial_Keypoints)
 
 
 ## Notebooks
